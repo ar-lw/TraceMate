@@ -1,0 +1,23 @@
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tracemate"
+version = "0.1.0"
+description = "A configurable RAG-powered Java DSA learning assistant"
+requires-python = ">=3.11"
+dependencies = [
+    "google-genai>=1.0.0,<2.0.0",
+    "pydantic-settings>=2.0.0",
+    "python-dotenv>=1.0.0",
+    "chromadb>=0.5.0,<2.0.0",
+    "fastapi>=0.110.0,<1.0.0",
+    "uvicorn[standard]>=0.27.0,<1.0.0",
+    "streamlit>=1.35.0,<2.0.0",
+    "requests>=2.31.0,<3.0.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
