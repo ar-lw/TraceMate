@@ -1,24 +1,22 @@
+import pytest
 
 from tracemate.providers.base import LLMProvider
 
 
-class GeminiProvider(LLMProvider):
+class ConcreteProvider(LLMProvider):
     def generate(self, prompt: str, system_instruction: str | None = None) -> str:
-        return "Gemini response"
+        return "Test response"
 
 
 class IncompleteProvider(LLMProvider):
     pass
 
 
-provider = GeminiProvider()
-assert provider.generate("Explain linked lists") == "Gemini response"
+def test_concrete_provider():
+    provider = ConcreteProvider()
+    assert provider.generate("Test") == "Test response"
 
-try:
-    IncompleteProvider()
-except TypeError:
-    print("Abstract class enforcement: PASSED")
-else:
-    raise AssertionError("Incomplete provider should not be instantiable.")
 
-print("Concrete provider implementation: PASSED")
+def test_abstract_provider_cannot_be_instantiated():
+    with pytest.raises(TypeError):
+        IncompleteProvider()

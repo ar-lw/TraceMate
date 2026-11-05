@@ -63,9 +63,21 @@ assistant = create_assistant()
 
 @app.get("/health")
 def health_check():
-    return {"status": "healthy", "app": "TraceMate"}
+    try:
+        chunk_count = assistant.vector_store.collection.count()
 
+        return {
+            "status": "healthy" if chunk_count > 0 else "degraded",
+            "app": "TraceMate",
+            "knowledge_chunks": chunk_count,
+        }
 
+    except Exception:
+        logger.exception("Health check failed")
+        raise HTTPException(
+            status_code=503,
+            detail="Knowledge store is unavailable.",
+        )
 @app.post("/ask", response_model=AskResponse)
 def ask_question(request: AskRequest):
     try:

@@ -26,6 +26,7 @@ def main() -> None:
         persist_directory=str(persist_directory),
     )
 
+    vector_store.reset_collection()
     vector_store.add_chunks(chunks)
 
     print(f"Chunks stored: {vector_store.collection.count()}")

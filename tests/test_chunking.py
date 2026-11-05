@@ -4,23 +4,19 @@ from tracemate.rag.loader import load_markdown_documents
 from tracemate.rag.chunker import chunk_documents
 
 
-def main():
-    knowledge_base_path = Path("knowledge_base")
+def test_knowledge_base_loading():
+    documents = load_markdown_documents(Path("knowledge_base"))
 
-    documents = load_markdown_documents(knowledge_base_path)
-    print(f"Documents loaded: {len(documents)}")
+    assert len(documents) == 3
 
+
+def test_chunk_generation():
+    documents = load_markdown_documents(Path("knowledge_base"))
     chunks = chunk_documents(documents)
 
-    print(f"Total chunks created: {len(chunks)}")
+    assert len(chunks) > 0
 
     for chunk in chunks:
-        print("\n" + "=" * 50)
-        print("Source:", chunk["metadata"]["source"])
-        print("Chunk:", chunk["metadata"]["chunk_index"])
-        print("Characters:", len(chunk["text"]))
-        print(chunk["text"][:200])
-
-
-if __name__ == "__main__":
-    main()
+        assert chunk["text"].strip()
+        assert "source" in chunk["metadata"]
+        assert "chunk_index" in chunk["metadata"]
